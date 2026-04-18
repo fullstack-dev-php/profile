@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thiết kế website giá rẻ</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #10b981;
+        --bg-body: #f8fafc;
+        --bg-card: #ffffff;
+        --text-main: #1e293b;
+        --text-dim: #64748b;
+        --border: #e2e8f0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        line-height: 1.6;
+      }
+
+      /* --- Navigation & Mobile Menu --- */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 15px 8%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        z-index: 2000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .logo {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--primary);
+        letter-spacing: -1px;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 35px;
+        align-items: center;
+      }
+      .nav-links a {
+        color: var(--text-main);
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+        font-size: 0.95rem;
+      }
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      /* Hamburger Icon */
+      .mobile-menu-btn {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-main);
+      }
+      .close-menu {
+        display: none;
+      }
+      .zalo-float {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        width: 60px;
+        height: 60px;
+        background-color: #0068ff;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0, 104, 255, 0.4);
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .zalo-float:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 104, 255, 0.6);
+      }
+
+      .zalo-float i {
+        color: white;
+        font-size: 30px;
+      }
+
+      /* Hiệu ứng vòng sóng lan tỏa */
+      .zalo-float::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #0068ff;
+        border-radius: 50%;
+        z-index: -1;
+        animation: zalo-pulse 2s infinite;
+      }
+
+      @keyframes zalo-pulse {
+        0% {
+          transform: scale(1);
+          opacity: 0.6;
+        }
+        100% {
+          transform: scale(1.8);
+          opacity: 0;
+        }
+      }
+      /* --- Testimonials Styles --- */
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .testimonial-card {
+        background: var(--bg-card);
+        padding: 40px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        position: relative;
+        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .testimonial-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        border-color: var(--primary);
+      }
+
+      .quote-icon {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 2rem;
+        color: var(--primary);
+        opacity: 0.1;
+      }
+
+      .stars {
+        color: #fbbf24;
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+      }
+
+      .testimonial-card p {
+        color: var(--text-main);
+        font-style: italic;
+        margin-bottom: 25px;
+        flex-grow: 1;
+      }
+
+      .client-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+
+      .client-avatar {
+        width: 45px;
+        height: 45px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+
+      .client-detail strong {
+        display: block;
+        font-size: 1rem;
+        color: var(--text-main);
+      }
+
+      .client-detail span {
+        font-size: 0.8rem;
+        color: var(--text-dim);
+      }
+
+      /* Mobile Overlay Menu */
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: block;
+        }
+        .nav-links {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          height: 100vh;
+          width: 70%;
+          background: white;
+          flex-direction: column;
+          justify-content: center;
+          box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+          transition: 0.4s ease;
+          z-index: 3000;
+        }
+        .nav-links.active {
+          right: 0;
+        }
+        .nav-links li {
+          margin: 10px 0;
+        }
+        .close-menu {
+          position: absolute;
+          display: block;
+          top: 25px;
+          right: 25px;
+          font-size: 1.8rem;
+          cursor: pointer;
+        }
+        .hero {
+          padding-top: 120px !important;
+          height: 100vh; /* Giữ chiều cao full màn hình cho đẹp */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        }
+
+        .hero-content {
+          max-width: 100%;
+          padding: 0 20px;
+        }
+
+        .hero h1 {
+          font-size: 2.2rem !important;
+          margin-top: 0; /* Loại bỏ margin thừa */
+        }
+
+        /* Ẩn ảnh hoàn toàn trên Mobile */
+        .hero-image {
+          display: none !important;
+        }
+      }
+
+      /* --- Global Sections --- */
+      section {
+        padding: 100px 8%;
+      }
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+      .section-title h2 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #0f172a;
+      }
+      .section-title div {
+        width: 60px;
+        height: 4px;
+        background: var(--primary);
+        margin: 15px auto;
+        border-radius: 2px;
+      }
+
+      /* --- Hero --- */
+      .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+        padding-top: 80px;
+      }
+      .hero-content {
+        flex: 1;
+        max-width: 600px;
+      }
+      .hero h1 {
+        font-size: 3.5rem;
+        line-height: 1.2;
+        margin: 25px 0;
+        color: #0f172a;
+      }
+      .hero h1 span {
+        color: var(--primary);
+      }
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--text-dim);
+        margin-bottom: 35px;
+      }
+
+      .btn {
+        padding: 14px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: 0.3s;
+        display: inline-block;
+        cursor: pointer;
+        border: none;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+      }
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      /* --- Expertise --- */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+      }
+      .skill-card {
+        background: var(--bg-card);
+        padding: 40px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        transition: 0.3s;
+      }
+      .skill-card:hover {
+        border-color: var(--primary);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+      }
+      .skill-card i {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+        background: #eff6ff;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+      }
+
+      /* --- Portfolio --- */
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+      }
+      .project-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+      /* --- Portfolio --- */
+      .project-img {
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .project-img img {
+        width: 100%;
+        height: auto; /* QUAN TRỌNG */
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 6s linear; /* chậm cho giống scroll */
+      }
+
+      /* Hover scroll */
+      .project-card:hover .project-img img {
+        transform: translateY(calc(-100% + 250px));
+      }
+      .project-info {
+        padding: 25px;
+      }
+      .project-tags {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+      .project-tags span {
+        font-size: 0.7rem;
+        font-weight: 700;
+        background: #f1f5f9;
+        color: var(--primary);
+        padding: 4px 10px;
+        border-radius: 4px;
+      }
+
+      /* --- Contact --- */
+      .contact-box {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 60px;
+        background: white;
+        padding: 60px;
+        border-radius: 24px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
+      }
+      .contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 15px;
+      }
+      .contact-item i {
+        color: var(--primary);
+        font-size: 1.2rem;
+        background: #eff6ff;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        outline: none;
+        font-family: inherit;
+        transition: 0.3s;
+      }
+      input:focus,
+      textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+      }
+
+      @media (max-width: 1024px) {
+        .hero h1 {
+          font-size: 2.8rem;
+        }
+        .contact-box {
+          grid-template-columns: 1fr;
+          padding: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a
+      href="https://zalo.me/0382679151"
+      class="zalo-float"
+      target="_blank"
+      rel="nofollow"
+    >
+      <i class="fa-solid fa-comment-dots"></i>
+    </a>
+    <nav>
+      <div class="logo">WEBSITE GIÁ RẺ</div>
+
+      <ul class="nav-links" id="navLinks">
+        <i class="fas fa-times close-menu" onclick="toggleMenu()"></i>
+        <li><a href="#home" onclick="toggleMenu()">Trang chủ</a></li>
+        <li><a href="#skills" onclick="toggleMenu()">Dịch vụ</a></li>
+        <li><a href="#portfolio" onclick="toggleMenu()">Dự án</a></li>
+        <li><a href="#testimonials" onclick="toggleMenu()">Đánh giá</a></li>
+        <li><a href="#contact" onclick="toggleMenu()">Liên hệ</a></li>
+        <li>
+          <a
+            href="#contact"
+            class="btn btn-primary"
+            style="color: white; padding: 10px 20px"
+            >Báo giá ngay</a
+          >
+        </li>
+      </ul>
+
+      <div class="mobile-menu-btn" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+
+    <section id="home" class="hero">
+      <div class="hero-content" data-aos="fade-right">
+        <h1>Thiết kế Website <br /><span>Chuẩn Chuyên Nghiệp</span></h1>
+        <p>
+          Tôi giúp doanh nghiệp của bạn sở hữu Website tốc độ cao, giao diện
+          hiện đại và tối ưu hóa chuyển đổi khách hàng.
+        </p>
+        <div class="hero-btns">
+          <a href="#portfolio" class="btn btn-primary">Xem dự án</a>
+        </div>
+      </div>
+      <div
+        class="hero-image"
+        data-aos="fade-left"
+        style="flex: 1; display: flex; justify-content: flex-end"
+      >
+        <img
+          src="images/web-design.svg"
+          alt="Web Design"
+          style="width: 90%; max-width: 500px"
+        />
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Dịch vụ & Năng lực</h2>
+        <div></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+          <i class="fas fa-magic"></i>
+          <h3>Thiết Kế Đẹp & Chuyên Nghiệp</h3>
+          <p>
+            Sở hữu website với giao diện độc quyền, bắt mắt. Hiển thị hoàn hảo
+            trên mọi thiết bị (Mobile, Tablet, Laptop) giúp nâng tầm thương hiệu
+            của bạn.
+          </p>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+          <i class="fas fa-rocket"></i>
+          <h3>Tốc Độ Nhanh - Load Tức Thì</h3>
+          <p>
+            Khách hàng không phải chờ đợi! Website được tối ưu cực nhẹ, giúp
+            tăng tỷ lệ ở lại và tạo trải nghiệm mua sắm mượt mà, không gián
+            đoạn.
+          </p>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+          <i class="fas fa-search-dollar"></i>
+          <h3>Dễ Lên Top - Dễ Bán Hàng</h3>
+          <p>
+            Website chuẩn Google Search, giúp khách hàng tự tìm đến bạn. Hệ
+            thống quản trị siêu đơn giản, giúp bạn làm chủ website mà không cần
+            biết về kỹ thuật.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" style="background: #ffffff">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Sản phẩm tiêu biểu</h2>
+        <div></div>
+      </div>
+      <div class="portfolio-grid">
+        <div class="project-card" data-aos="zoom-in">
+          <div class="project-img">
+            <img src="images/oto.png" alt="Tour Project" />
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span>Lọc xe thông minh</span>
+              <span>So sánh giá</span>
+              <span>Đặt lịch xem xe</span>
+            </div>
+            <h3>Trưng bày xe chuyên nghiệp tăng tỷ lệ chốt sale</h3>
+            <p style="color: var(--text-dim); font-size: 0.9rem">
+              Website giúp showroom hiển thị danh sách xe, thông tin chi tiết,
+              giá bán và hỗ trợ khách hàng đặt lịch xem xe nhanh chóng. Tối ưu
+              trải nghiệm người dùng và tăng khả năng chuyển đổi.
+            </p>
+          </div>
+        </div>
+        <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+          <div class="project-img">
+            <img src="images/dongsan.webp" alt="Quiz Project" />
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span>Tìm kiếm nâng cao</span>
+              <span>Bản đồ vị trí</span>
+              <span>Kết nối nhanh</span>
+            </div>
+            <h3>Đăng tin nhanh – tìm kiếm thông minh</h3>
+            <p style="color: var(--text-dim); font-size: 0.9rem">
+              Giải pháp đăng bán và quản lý bất động sản với bộ lọc mạnh mẽ,
+              hiển thị thông tin rõ ràng và hỗ trợ kết nối trực tiếp giữa người
+              mua và người bán.
+            </p>
+          </div>
+        </div>
+        <div class="project-card" data-aos="zoom-in" data-aos-delay="200">
+          <div class="project-img">
+            <img src="images/spa.webp" alt="Mail Project" />
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span>Đặt lịch online</span>
+              <span>Nhắc lịch tự động</span>
+              <span>Ưu đãi thành viên</span>
+            </div>
+            <h3>Website Spa & Dịch vụ Làm đẹp</h3>
+            <p style="color: var(--text-dim); font-size: 0.9rem">
+              Thiết kế website chuyên nghiệp cho spa với tính năng đặt lịch
+              online, giới thiệu dịch vụ và tạo trải nghiệm cao cấp giúp giữ
+              chân khách hàng.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="testimonials" style="background-color: #f1f5f9">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Khách hàng nói gì</h2>
+        <div></div>
+        <p
+          style="color: var(--text-dim); text-align: center; margin-top: -10px"
+        >
+          Sự hài lòng của bạn là niềm tự hào của tôi
+        </p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i
+            ><i class="fas fa-star"></i><i class="fas fa-star"></i
+            ><i class="fas fa-star"></i>
+          </div>
+          <p>
+            "Ban đầu tôi khá lo lắng khi làm web giá rẻ, nhưng kết quả thật bất
+            ngờ. Web load cực nhanh, giao diện hiện đại và bạn hỗ trợ rất nhiệt
+            tình ngay cả sau khi bàn giao."
+          </p>
+          <div class="client-info">
+            <div class="client-avatar">LT</div>
+            <div class="client-detail">
+              <strong>Chị Lan Anh</strong>
+              <span>Chủ shop thời trang</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i
+            ><i class="fas fa-star"></i><i class="fas fa-star"></i
+            ><i class="fas fa-star"></i>
+          </div>
+          <p>
+            "Hệ thống quản lý tour du lịch rất chuyên nghiệp. Tích hợp thanh
+            toán tự động giúp tôi tiết kiệm 80% thời gian vận hành. Rất đáng
+            đồng tiền bát gạo!"
+          </p>
+          <div class="client-info">
+            <div class="client-avatar" style="background: var(--secondary)">
+              HN
+            </div>
+            <div class="client-detail">
+              <strong>Anh Hoàng Nam</strong>
+              <span>CEO Travel Agency</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i
+            ><i class="fas fa-star"></i><i class="fas fa-star"></i
+            ><i class="fas fa-star"></i>
+          </div>
+          <p>
+            "Tôi không rành về code nhưng hệ thống quản trị bạn làm rất dễ hiểu.
+            Website chuẩn SEO nên khách hàng tìm đến qua Google nhiều hơn hẳn
+            trước đây."
+          </p>
+          <div class="client-info">
+            <div class="client-avatar" style="background: #f59e0b">MQ</div>
+            <div class="client-detail">
+              <strong>Anh Minh Quang</strong>
+              <span>Quản lý nhà hàng</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-box" data-aos="fade-up">
+        <div class="contact-left">
+          <h2 style="margin-bottom: 20px; font-size: 2rem">Bắt đầu dự án?</h2>
+          <p style="color: var(--text-dim); margin-bottom: 40px">
+            Đừng ngần ngại để lại lời nhắn, tôi sẽ phản hồi bạn trong vòng 24h
+            làm việc.
+          </p>
+
+          <div class="contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <span>0382679151 (Zalo)</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>phuandev@gmail.com</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Hà Nội, Việt Nam</span>
+          </div>
+        </div>
+
+        <form class="contact-right">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px">
+            <input type="text" placeholder="Họ và tên" />
+            <input type="email" placeholder="Email" />
+          </div>
+          <input type="text" placeholder="Chủ đề dự án" />
+          <textarea rows="5" placeholder="Bạn cần tôi giúp gì?"></textarea>
+          <button type="button" class="btn btn-primary" style="width: 100%">
+            Gửi yêu cầu hợp tác
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <footer
+      style="
+        padding: 50px 8%;
+        background: #f1f5f9;
+        text-align: center;
+        color: var(--text-dim);
+      "
+    >
+      <p>
+        &copy; 2022 Thiết kế website giá rẻ bảo mật cao tốc độ cho cá nhân &
+        doanh nghiệp
+      </p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      // Init Animation
+      AOS.init({ duration: 1000, once: true });
+
+      // Mobile Menu Toggle
+      function toggleMenu() {
+        const nav = document.getElementById("navLinks");
+        nav.classList.toggle("active");
+      }
+
+      // Đóng menu khi cuộn trang (tùy chọn)
+      window.onscroll = () => {
+        document.getElementById("navLinks").classList.remove("active");
+      };
+    </script>
+  </body>
+</html>
